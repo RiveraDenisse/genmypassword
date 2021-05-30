@@ -8,3 +8,4 @@ Github : https://github.com/RiveraDenisse/genmypassword
 
 *![screenshot](/Assets/nocaps.png)
 *![screenshot](/Assets/nolower.png)
+*![screenshot](/Assets/nosymbol.png)
