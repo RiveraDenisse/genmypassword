@@ -1,9 +1,8 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 var passwordGen;
-var upperChar;
+
 var lengthChar;
-var capital;
 var password;
 var passwordCharacters;
 
@@ -15,14 +14,14 @@ var generatePassword = function() {
   //ask for length of password
   lengthChar = window.prompt ("Please specify length of password (length must be between 8 and 128) ");
 
-    if (lengthChar === "" || lengthChar === null) {
+    if (lengthChar === "" || lengthChar === null || lengthChar <= 7 || lengthChar >=129) {
       window.alert("Please provide a value between 8 and 128");
       return generatePassword(); 
-    }  
-
-    else (lengthChar >7 && lengthChar <=128) 
+    } 
+    else {
       window.alert("you have chosen " + lengthChar + " characters");
-      chooseCharacterTypes();      
+      chooseCharacterTypes();   
+    }
     };  
   
 //-----------------------------------------------------------------------------    
@@ -40,88 +39,86 @@ var chooseCharacterTypes = function () {
   }
   
   else if (capital && lower && special && numbers) {
-   passwordCharacters = upperChar() + lowerChar() + specialChar() + numberChar();
+   passwordCharacters = [upperChar,lowerChar, specialChar,numberChar];
     console.log(passwordCharacters);
   }
   else if (capital && lower && special && !numbers) {
-    passwordCharacters = upperChar() + lowerChar() + specialChar();
+    passwordCharacters = [upperChar, lowerChar, specialChar];
      console.log(passwordCharacters);
    }
    else if (capital && lower && !special && numbers) {
-    passwordCharacters = upperChar() + lowerChar() + numberChar();
+    passwordCharacters = [upperChar, lowerChar, numberChar];
      console.log(passwordCharacters);
    }
    else if (capital && !lower && special && numbers) {
-    passwordCharacters = upperChar() + specialChar() + numberChar();
+    passwordCharacters = [upperChar, specialChar, numberChar];
      console.log(passwordCharacters);
    }
    else if (!capital && lower && special && numbers) {
-    passwordCharacters = lowerChar() + specialChar() + numberChar();
+    passwordCharacters = [lowerChar, specialChar, numberChar];
      console.log(passwordCharacters);
    }
    else if (capital && lower && !special && !numbers) {
-    passwordCharacters = upperChar() + lowerChar();
+    passwordCharacters = [upperChar, lowerChar];
      console.log(passwordCharacters);
    }
    else if (capital && !lower && special && !numbers) {
-    passwordCharacters = upperChar() + specialChar();
+    passwordCharacters = [upperChar, specialChar];
      console.log(passwordCharacters);
    }
    else if (!capital && lower && special && !numbers) {
-    passwordCharacters = lowerChar() + specialChar();
+    passwordCharacters = [lowerChar, specialChar];
      console.log(passwordCharacters);
    }
    else if (capital && !lower && !special && !numbers) {
-    passwordCharacters = upperChar();
+    passwordCharacters = [upperChar];
      console.log(passwordCharacters);
    }
    else if (!capital && lower && !special && !numbers) {
-    passwordCharacters = lowerChar();
+    passwordCharacters = [lowerChar];
      console.log(passwordCharacters);
    }
    else if (!capital && !lower && !special && numbers) {
-    passwordCharacters = numberChar();
+    passwordCharacters = [numberChar];
      console.log(passwordCharacters);
    }
    else if (!capital && !lower && special && !numbers) {
-    passwordCharacters = specialChar();
+    passwordCharacters = [specialChar];
      console.log(passwordCharacters);
    }
    else if (!capital && lower && !special && numbers) {
-    passwordCharacters = lowerChar() + numberChar();
+    passwordCharacters = [lowerChar, numberChar];
      console.log(passwordCharacters);
    }
    else if (!capital && !lower && special && numbers) {
-    passwordCharacters = specialChar() + numberChar();
+    passwordCharacters = [specialChar, numberChar];
      console.log(passwordCharacters);
    }
    else if (capital && !lower && !special && numbers) {
-    passwordCharacters = upperChar() + numberChar();
+    passwordCharacters = [upperChar, numberChar];
      console.log(passwordCharacters);
    }
 };
 
- 
-
 //**************************************
 //function for uppercase
-function upperChar () {
+const upperChar = function () {
   
   return String.fromCharCode(Math.floor(Math.random()*26)+65);
     
 }
 
 //function for lowercase
-function lowerChar () {
+const lowerChar =function () {
   return String.fromCharCode(Math.floor(Math.random()*26)+97);  
 }
 
 //function for number
-function numberChar () {
+const numberChar =function () {
   return String.fromCharCode(Math.floor(Math.random()*10)+48);  
 }
 //function for special character
-function specialChar () {
+const specialChar = function () {
   const randomSymbol = " \"!#$%&'()*+,-./:;<=>?@[]^_`{|}~"
   return randomSymbol[Math.floor(Math.random()*randomSymbol.length)];  
 }
@@ -136,17 +133,17 @@ console.log(numberChar());
 //iteration
 function pwdg() {
 var pssword = "";
-for (var i = 0; i< lengthChar; i++) {
-  var characterList =passwordCharacters[Math.floor(Math.random()*passwordCharacters.length)];
+for (var i=0; i<passwordCharacters.length ; i++) {
+  pssword= pssword + passwordCharacters[i]();
+}
+for (var i = 0; i< lengthChar-passwordCharacters.length; i++) {
+  var characterList =passwordCharacters[Math.floor(Math.random()*passwordCharacters.length)]();
   pssword= pssword+characterList;
   console.log(pssword);
 }
-return pssword;
+return pssword.split('').sort(function(){return 0.5-Math.random()}).join('');
 }
 
-
-
- 
 
 // Write password to the #password input
 function writePassword() {
@@ -154,7 +151,6 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
   
   passwordText.value = pwdg();
-
 }
 
 // Add event listener to generate button
